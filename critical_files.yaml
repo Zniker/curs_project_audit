@@ -1,0 +1,49 @@
+files:
+  # --- accounts ---
+  - path: "/etc/passwd"
+    category: "accounts"
+    base_weight: 70
+    description: "Список пользователей, shell, домашние директории"
+
+  - path: "/etc/shadow"
+    category: "accounts"
+    base_weight: 95
+    description: "Хэши паролей пользователей"
+
+  - path: "/etc/group"
+    category: "accounts"
+    base_weight: 65
+    description: "Группы и членство"
+
+  - path: "/etc/gshadow"
+    category: "accounts"
+    base_weight: 80
+    description: "Секреты групп"
+
+  # --- privilege ---
+  - path: "/etc/sudoers"
+    category: "privilege"
+    base_weight: 95
+    description: "Права sudo"
+
+  - path: "/etc/sudoers.d"
+    category: "privilege"
+    base_weight: 90
+    description: "Дополнительные правила sudo"
+
+  # --- remote access ---
+  - path: "/etc/ssh/sshd_config"
+    category: "remote_access"
+    base_weight: 85
+    description: "Конфигурация SSH сервера"
+
+  # --- logging ---
+  - path: "/var/log/auth.log"
+    category: "logging"
+    base_weight: 70
+    description: "Лог аутентификации"
+
+  - path: "/var/log/audit/audit.log"
+    category: "logging"
+    base_weight: 80
+    description: "Лог аудита"
