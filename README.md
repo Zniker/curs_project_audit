@@ -105,6 +105,8 @@
   - динамика событий (все / подозрительные),
   - распределение по уровням (pie-chart);
 - **окно подробностей события** — открывается по двойному клику.
+  
+---
 
 ## 3. Используемые технологии
 
@@ -196,6 +198,38 @@ files:
     category: "logging"
     base_weight: 80
     description: "Лог аудита"
+```
+## 7. Настройка auditd
+
+Конфигурация правил аудита размещается в файле:
+
+/etc/audit/rules.d/critical-files.rules
+
+Ниже приведён полный набор правил, отслеживающих операции чтения и модификации критически важных файлов.
+
+```text
+## ACCOUNTS
+-a always,exit -F path=/etc/passwd  -F perm=r -F auid>=1000 -F auid!=4294967295 -k critical_files
+-a always,exit -F path=/etc/shadow  -F perm=r -F auid>=1000 -F auid!=4294967295 -k critical_files
+-a always,exit -F path=/etc/group   -F perm=r -F auid>=1000 -F auid!=4294967295 -k critical_files
+-a always,exit -F path=/etc/gshadow -F perm=r -F auid>=1000 -F auid!=4294967295 -k critical_files
+
+-a always,exit -F path=/etc/passwd  -F perm=w -F auid!=4294967295 -k critical_files
+-a always,exit -F path=/etc/shadow  -F perm=w -F auid!=4294967295 -k critical_files
+-a always,exit -F path=/etc/group   -F perm=w -F auid!=4294967295 -k critical_files
+-a always,exit -F path=/etc/gshadow -F perm=w -F auid!=4294967295 -k critical_files
+
+## PRIVILEGE
+-a always,exit -F path=/etc/sudoers -F perm=wa -F auid!=4294967295 -k critical_files
+-w /etc/sudoers.d -p wa -k critical_files
+
+## REMOTE ACCESS
+-a always,exit -F path=/etc/ssh/sshd_config -F perm=wa -F auid!=4294967295 -k critical_files
+
+## LOGGING
+-a always,exit -F path=/var/log/auth.log        -F perm=wa -F auid!=4294967295 -k critical_files
+-a always,exit -F path=/var/log/audit/audit.log -F perm=wa -F auid!=4294967295 -k critical_files
+
 ```
 ## 9. Интерфейс SOC-панели
 
